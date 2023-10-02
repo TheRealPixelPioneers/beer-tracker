@@ -9,15 +9,27 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-progress": "^1.0.3",
+    "@supabase/supabase-js": "^2.37.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
+    "lucide-react": "^0.279.0",
+    "next": "latest",
+    "pg": "^8.11.3",
     "react": "latest",
     "react-dom": "latest",
-    "next": "latest"
+    "recharts": "^2.8.0",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "autoprefixer": "latest",
-    "postcss": "latest",
-    "tailwindcss": "latest",
     "eslint": "latest",
-    "eslint-config-next": "latest"
+    "eslint-config-next": "latest",
+    "postcss": "latest",
+    "supabase": "^1.99.5",
+    "tailwindcss": "latest"
   }
 }
