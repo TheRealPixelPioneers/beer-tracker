@@ -52,6 +52,61 @@ inner join players on players.nfc_id = beers.nfc_id
 group by beers.nfc_id, players.name
 order by count(beers.nfc_id) desc
 `;
+// let chartData = await sql`WITH time_intervals AS (
+//   SELECT
+//       generate_series(
+//           (SELECT MIN(created_at) FROM beers),
+//           (SELECT MAX(created_at) FROM beers),
+//           interval '15 minutes'
+//       ) AS time_interval
+// )
+
+// SELECT
+//   ti.time_interval AS start_time,
+//   ti.time_interval + interval '15 minutes' AS end_time,
+//   nfc_id,
+//   name,
+//   SUM(entry_count) OVER (PARTITION BY nfc_id ORDER BY ti.time_interval) AS rolling_sum
+// FROM time_intervals ti
+// LEFT JOIN (
+//   SELECT
+//       beers.nfc_id,
+//       players.name,
+//       beers.created_at,
+//       COUNT(beers.nfc_id) AS entry_count
+//   FROM beers
+//   inner join players on beers.nfc_id = players.nfc_id
+//   GROUP BY beers.nfc_id, players.name, beers.created_at
+// ) AS subquery
+// ON ti.time_interval <= subquery.created_at AND subquery.created_at < ti.time_interval + interval '15 minutes'
+// ORDER BY start_time;`;
+
+
+let chartData = await sql`WITH time_intervals AS (
+  SELECT distinct
+      created_at AS time_interval,
+      LEAD(created_at) OVER (ORDER BY beers.created_at) AS next_timestamp
+  FROM beers
+)
+
+SELECT
+  ti.time_interval AS start_time,
+  nfc_id,
+  name,
+  SUM(entry_count) OVER (PARTITION BY nfc_id ORDER BY ti.time_interval) AS rolling_sum
+FROM time_intervals ti
+LEFT JOIN (
+  SELECT
+      beers.nfc_id,
+      players.name,
+      beers.created_at,
+      COUNT(beers.nfc_id) AS entry_count
+  FROM beers
+  inner join players on beers.nfc_id = players.nfc_id
+  GROUP BY beers.nfc_id, players.name, beers.created_at
+) AS subquery
+ON ti.time_interval <= subquery.created_at AND (subquery.created_at < ti.next_timestamp OR ti.next_timestamp is null)
+ORDER BY start_time;`;
 
   return (
     <div className="p-6">
@@ -129,7 +184,7 @@ order by count(beers.nfc_id) desc
           </CardDescription>
         </CardHeader>
         <CardContent className="p-4 dark:bg-gray-800">
-          <ConsumptionChart />
+          <ConsumptionChart data={chartData?.rows} players={leaderboard?.rows.map((row) => ({ name: row.name }))} />
         </CardContent>
       </Card>
     </div>
