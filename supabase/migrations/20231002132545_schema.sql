@@ -6,6 +6,13 @@ create table "public"."beers" (
 
 alter table "public"."beers" enable row level security;
 
+create policy "anon read"
+on "public"."beers"
+as permissive
+for select
+to anon
+using (true);
+
 create table "public"."players" (
     "nfc_id" text not null,
     "created_at" timestamp with time zone not null default now(),
