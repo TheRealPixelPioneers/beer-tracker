@@ -21,6 +21,7 @@ import {
 import { ConsumptionChart } from '@/components/ConsumptionChart';
 import { sql } from '@/lib/sql-client';
 import { formatDistance } from 'date-fns';
+import AutoRefresh from '@/components/AutoRefresh';
 
 
 export default async function AnalyticalDashboard() {
@@ -110,6 +111,7 @@ ORDER BY start_time;`;
 
   return (
     <div className="p-6">
+      <AutoRefresh />
       <h1 className="font-bold text-4xl mb-6">Dashboard</h1>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-6">
         <Card>
