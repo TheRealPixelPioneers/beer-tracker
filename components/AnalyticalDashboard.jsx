@@ -19,8 +19,6 @@ import { sql } from '@/lib/sql-client';
 import { formatDistance } from 'date-fns';
 import AutoRefresh from '@/components/AutoRefresh';
 
-export const dynamic = 'force-dynamic';
-
 export default async function AnalyticalDashboard() {
 
   let totalBeers = await sql`SELECT count(*) as total_beers FROM beers`;
