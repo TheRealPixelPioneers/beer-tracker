@@ -4,17 +4,13 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
@@ -23,6 +19,7 @@ import { sql } from '@/lib/sql-client';
 import { formatDistance } from 'date-fns';
 import AutoRefresh from '@/components/AutoRefresh';
 
+export const dynamic = 'force-dynamic';
 
 export default async function AnalyticalDashboard() {
 
