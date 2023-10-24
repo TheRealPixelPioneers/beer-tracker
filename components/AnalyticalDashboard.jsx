@@ -138,7 +138,7 @@ ORDER BY start_time;`;
           <CardContent>
             <div className="text-2xl font-bold">{fastestDrinker?.rows[0]?.name}</div>
             <p className="text-xs text-muted-foreground">
-              {formatDistance(fastestDrinker?.rows[0]?.next_timestamp, fastestDrinker?.rows[0]?.created_at, { includeSeconds: true })}
+              {fastestDrinker?.rows[0]?.next_timestamp && fastestDrinker?.rows[0]?.created_at ? formatDistance(fastestDrinker?.rows[0]?.next_timestamp, fastestDrinker?.rows[0]?.created_at, { includeSeconds: true }) : 'n/a'}
             </p>
           </CardContent>
         </Card>
